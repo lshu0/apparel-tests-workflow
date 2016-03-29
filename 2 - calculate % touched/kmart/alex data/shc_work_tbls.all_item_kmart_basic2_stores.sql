@@ -1,4 +1,4 @@
-create table shc_work_tbls.all_item_kmart_basic2_week7 as (
+create table shc_work_tbls.all_item_kmart_basic2_week8 as (
 select	a13.DVSN_NBR  DVSN_NBR,
 	max(a13.DVSN_DESC)  DVSN_DESC,
 	a13.CATG_ID  CATG_ID,
@@ -34,10 +34,10 @@ from	(select	a11.WK_NBR  WK_NBR,
 		  on 	(a12.SHC_SSN_CD = a13.SHC_SSN_CD and 
 		a12.SSN_YR_NBR = a13.SSN_YR_NBR)
 	where	(a12.MRCH_NBR in (10000)
-	 and a11.WK_NBR in (201607)
+	 and a11.WK_NBR in (201608)
 	 and a11.LOCN_NBR in (
 	 
-	 sel locn from shc_work_tbls.kmart_all_stores where test_nm = 'Basics 2' and wk_no = 7  
+	 sel locn from shc_work_tbls.kmart_all_stores where test_nm = 'Basics 2' and wk_no = 8  
 	 
 	 )	 and a11.TRS_TYP_CD in ('A', 'R', 'S')
 	 and a11.TYLY_DESC in ('TY'))
@@ -52,7 +52,7 @@ from	(select	a11.WK_NBR  WK_NBR,
 	join	ALEX_ARP_VIEWS_PRD.LU_SHC_WEEKS	a15
 	  on 	(pa12.WK_NBR = a15.WK_NBR)
 where	(a13.MRCH_NBR in (10000)
- and pa12.WK_NBR in (201607))
+ and pa12.WK_NBR in (201608))
 group by	a13.DVSN_NBR,
 	a13.CATG_ID,
 	pa12.KSN_ID,

@@ -1,4 +1,4 @@
-create table shc_work_tbls.all_item_alex_simple_week7 as (
+create table shc_work_tbls.all_item_alex_simple_week8 as (
 select	a11.WK_NBR  WK_NBR,
 	max(Substring(a16.WK_NBR,10,11)||' '|| a16.WK_END_DT)  WK_DESC0,
 	a12.DIV_NBR  DIV_NBR,
@@ -31,10 +31,10 @@ And PRD_VALU_CD <> 'FFFF')	a15
 	join	ALEX_ARP_VIEWS_PRD.LU_SHC_WEEKS	a16
 	  on 	(a11.WK_NBR = a16.WK_NBR)
 where	(a12.MRCH_NBR in (20000)
- and a11.WK_NBR in (201607)
+ and a11.WK_NBR in (201608)
  and a11.LOCN_NBR in (
 
-sel locn from shc_work_tbls.sears_all_stores where test_nm = 'Simple Messaging Test' and wk_no = 7
+sel locn from shc_work_tbls.sears_all_stores where test_nm = 'Simple Messaging Test' and wk_no = 8
 
  )
  and a11.TRS_TYP_CD in ('A', 'R', 'S')

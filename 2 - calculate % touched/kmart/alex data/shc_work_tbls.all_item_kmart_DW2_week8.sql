@@ -1,4 +1,4 @@
-create table shc_work_tbls.all_item_kmart_basic1_week8 as (
+create table shc_work_tbls.all_item_kmart_DW2_week8 as (
 select	a13.DVSN_NBR  DVSN_NBR,
 	max(a13.DVSN_DESC)  DVSN_DESC,
 	a13.CATG_ID  CATG_ID,
@@ -37,7 +37,7 @@ from	(select	a11.WK_NBR  WK_NBR,
 	 and a11.WK_NBR in (201608)
 	 and a11.LOCN_NBR in (
 	 
-	 sel locn from shc_work_tbls.kmart_all_stores where test_nm = 'Basics 1' and wk_no =8 
+	 sel locn from shc_work_tbls.kmart_all_stores where test_nm = 'D&W 2' and wk_no =8 
 	 )	 and a11.TRS_TYP_CD in ('A', 'R', 'S')
 	 and a11.TYLY_DESC in ('TY'))
 	group by	a11.WK_NBR,
