@@ -9,8 +9,13 @@ import jpype
 import AvgListRegKmart
 import AvgListRegSears
 import SearsAlexTable
+import SearsAllApparelItem
+import SearsTrackerApparel
+import KmartAlexTable
+import KmartAllApparelItem
+import KmartTrackerApparel
 
-def teraConnection(tduser='XXX',tdpwd='XXXX'):
+def teraConnection(tduser='lshu0',tdpwd='slw1234'):
 
 
     driverClass='com.teradata.jdbc.TeraDriver'
@@ -25,35 +30,58 @@ def teraConnection(tduser='XXX',tdpwd='XXXX'):
 cursor=teraConnection()    
     
 sears_test=['.00 Pricing Strategy','Basics 1','Basics 2','Blackout','Seasonal Variation','Simple Messaging Test']
-kmart_test=['Basics 1','Basics 2','Blackout','D&W 1','D&W 2']
-wk_start = 201601
-wk_end = 201608
+kmart_test=['Basics 1','Basics 2','Blackout','D&W Inc','D&W Dec']
+wk= 201608
 
 ALRS={}
 for test_nm in sears_test:
-    for wk in xrange(wk_start, wk_end+1, 1):
-        yr_wk=str(wk)
-        wk_no= str(wk%100)
-        query=AvgListRegSears.AvgListRegSears(yr_wk,wk_no,test_nm)
-        cursor.execute(query)
-        rows=cursor.fetchall()
-        ALRS[test_nm+yr_wk]=rows[0][7]
+    yr_wk=str(wk)
+    wk_no= str(wk%100)
+    query=AvgListRegSears.AvgListRegSears(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    ALRS[test_nm+yr_wk]=rows[0][7]
         
 ALRK={}        
 for test_nm in kmart_test:
-    for wk in xrange(wk_start, wk_end+1, 1):
-        yr_wk=str(wk)
-        wk_no= str(wk%100)
-        query=AvgListRegKmart.AvgListRegKmart(yr_wk,wk_no,test_nm)
-        cursor.execute(query)
-        rows=cursor.fetchall()
-        ALRK[test_nm+yr_wk]=rows[0][7]
+    yr_wk=str(wk)
+    wk_no= str(wk%100)
+    query=AvgListRegKmart.AvgListRegKmart(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    ALRK[test_nm+yr_wk]=rows[0][7]
 
+SAAI={}
+STA={}
 for test_nm in sears_test:
-    wk = 201608
     wk_no= str(wk%100)
     yr_wk=str(wk)
     query = SearsAlexTable.SearsAlexAllItem(yr_wk,wk_no,test_nm)
     cursor.execute(query)
+    query = SearsAllApparelItem.SearsAllApparelItem(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    SAAI[test_nm+yr_wk]=rows[0]
+    query = SearsTrackerApparel.SearsTrackerApparel(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    STA[test_nm+yr_wk]=rows[0]
+  
+KAAI={}  
+KTA={}
+for test_nm in kmart_test:
+    wk_no= str(wk%100)
+    yr_wk=str(wk)
+    query = KmartAlexTable.KmartAlexTable(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    query = KmartAllApparelItem.KmartAllApparelItem(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    KAAI[test_nm+yr_wk]=rows[0]
+    query = KmartTrackerApparel.KmartTrackerApparel(yr_wk,wk_no,test_nm)
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    KTA[test_nm+yr_wk]=rows[0]
     
-    
+
+

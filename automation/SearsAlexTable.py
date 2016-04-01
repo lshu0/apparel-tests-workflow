@@ -11,8 +11,7 @@ def SearsAlexAllItem(year_week,week_number, test_name):
     table_name = table_names[test_name]
     query ="""
 create table shc_work_tbls.all_item_alex_{tbl_nm}_week{wk_no} as (
-select	a11.WK_NBR  WK_NBR,
-	max(Substring(a16.WK_NBR,10,11)||' '|| a16.WK_END_DT)  WK_DESC0,
+select	
 	a12.DIV_NBR  DIV_NBR,
 	max(a12.DIV_DESC)  DIV_DESC,
 	a12.PRD_IRL_NBR  PRD_IRL_NBR,
@@ -52,13 +51,13 @@ sel locn from shc_work_tbls.sears_all_stores where test_nm = '{test_nm}' and wk_
  and a11.TRS_TYP_CD in ('A', 'R', 'S')
  and a11.MDS_STS in (2, 5, 8)
  and a11.TYLY_DESC in ('TY'))
-group by	a11.WK_NBR,
-	a12.DIV_NBR,
+group by	a12.DIV_NBR,
 	a12.PRD_IRL_NBR,
 	a12.LN_ID,
 	a15.PRD_SUB_ATTR_ID
 )
 with data primary index ( DIV_NBR0, ITM_NBR0)
+
     """.format(tbl_nm=table_name, yr_wk = year_week, wk_no = week_number, test_nm = test_name)
     return query
     
