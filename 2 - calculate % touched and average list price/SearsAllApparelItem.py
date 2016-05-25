@@ -13,9 +13,9 @@ def SearsAllApparelItem(year_week,week_number, test_name):
     else:
         basics = '<>'
     query = """
-select sum(SEARSEVENTSALES), sum(SEARSEVENTSALESUNITS) , sum(SEARSEVENTSALES)- sum(SEARSEVENTSALESCOST)
+select sum(SEARSTOTALSALES), sum( SEARSTOTALSALESUNITS) , sum(SEARSTOTALSALES)- sum(SEARSCOSTOFMDSESOLD)
 from  shc_work_tbls.all_item_alex_{tbl_nm}_week{wk_no} a join  shc_work_tbls.Sears_Apparel_Div_Line b on
-a.div_nbr = b.div_no and a.ln_nbr= b.ln_no
+a.DIV_NBR = b.div_no and a.LN_NBR= b.ln_no
 where PRD_SUB_ATTR_NM {bs} 'BASIC'
     """.format(tbl_nm=table_name, yr_wk = year_week, wk_no = week_number, test_nm = test_name, bs=basics)
     return query

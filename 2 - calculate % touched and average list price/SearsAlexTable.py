@@ -13,20 +13,15 @@ def SearsAlexAllItem(year_week,week_number, test_name):
 create table shc_work_tbls.all_item_alex_{tbl_nm}_week{wk_no} as (
 select	
 	a12.DIV_NBR  DIV_NBR,
-	max(a12.DIV_DESC)  DIV_DESC,
-	a12.PRD_IRL_NBR  PRD_IRL_NBR,
-	max(a12.PRD_DESC)  PRD_DESC,
-	max(a12.DIV_NBR)  DIV_NBR0,
-	max(a12.ITM_NBR)  ITM_NBR0,
 	a12.LN_ID  LN_ID,
-	max(a12.DIV_NBR)  DIV_NBR1,
 	max(a12.LN_NBR)  LN_NBR,
-	max(a12.LN_DESC)  LN_DESC,
+	a12.PRD_IRL_NBR  PRD_IRL_NBR,
+	max(a12.ITM_NBR)  ITM_NBR0,
 	a15.PRD_SUB_ATTR_ID  PRD_SUB_ATTR_ID,
 	max(a15.PRD_SUB_ATTR_NM)  PRD_SUB_ATTR_NM,
-	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_SLL_DLR*a11.TY_CTR  end)  SEARSEVENTSALES,
-	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_UN_QT*a11.TY_CTR  end)  SEARSEVENTSALESUNITS,
-	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_CST_DLR*a11.TY_CTR  end)  SEARSEVENTSALESCOST
+	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_SLL_DLR*a11.TY_CTR  end)  SEARSTOTALSALES,
+	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_UN_QT*a11.TY_CTR  end)  SEARSTOTALSALESUNITS,
+	sum( CASE WHEN a11.SLS_TYP_CD not in ('M') THEN a11.TRS_CST_DLR*a11.TY_CTR  end)  SEARSCOSTOFMDSESOLD
 from	ALEX_ARP_VIEWS_PRD.FACT_SRS_WKLY_OPR_SLS_TYLY	a11
 	join	ALEX_ARP_VIEWS_PRD.LU_SRS_PRODUCT_SKU	a12
 	  on 	(a11.SKU_ID = a12.SKU_ID)
@@ -44,19 +39,20 @@ And PRD_VALU_CD <> 'FFFF')	a15
 where	(a12.MRCH_NBR in (20000)
  and a11.WK_NBR in ({yr_wk})
  and a11.LOCN_NBR in (
-
-sel locn from shc_work_tbls.sears_all_stores where test_nm = '{test_nm}' and wk_no = {wk_no}
-
+ 
+ sel locn from shc_work_tbls.sears_all_stores where test_nm = '{test_nm}' and wk_no = {wk_no}
+ 
  )
  and a11.TRS_TYP_CD in ('A', 'R', 'S')
- and a11.MDS_STS in (2, 5, 8)
  and a11.TYLY_DESC in ('TY'))
-group by	a12.DIV_NBR,
-	a12.PRD_IRL_NBR,
+group by	
+	a12.DIV_NBR,
 	a12.LN_ID,
+	a12.PRD_IRL_NBR,
 	a15.PRD_SUB_ATTR_ID
+
 )
-with data primary index ( DIV_NBR0, ITM_NBR0)
+with data primary index ( DIV_NBR, ITM_NBR0)
 
     """.format(tbl_nm=table_name, yr_wk = year_week, wk_no = week_number, test_nm = test_name)
     return query
